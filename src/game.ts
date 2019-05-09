@@ -8,46 +8,47 @@ import {
 } from 'babylonjs';
 
 export default class Game {
-  private _canvas: HTMLCanvasElement;
-  private _engine: Engine;
-  private _scene: Scene;
-  private _camera!: FreeCamera;
+  private canvas: HTMLCanvasElement;
+  private engine: Engine;
+  private scene: Scene;
+  private camera!: FreeCamera;
 
   constructor(canvas: HTMLCanvasElement) {
-    this._canvas = canvas
-    this._engine = new Engine(this._canvas, true);
-    this._scene = new Scene(this._engine);
+    this.canvas = canvas;
+    this.engine = new Engine(this.canvas, true);
+    this.scene = new Scene(this.engine);
   }
 
-  createScene() : void {
-    // Light
-    new HemisphericLight('hemlight', new Vector3(0, 1, 0), this._scene);
-
-    // Sphere
-    let sphere = MeshBuilder.CreateSphere('sphere', {
-      segments: 16, 
-      diameter: 1,
-    }, this._scene);
-    sphere.position.y = 1;
-
+  public createScene(): void {
     // Ground
-    MeshBuilder.CreateGround('ground', {
-      width: 6,
-      height: 6,
+    const ground = MeshBuilder.CreateGround('ground', {
+      height: 10,
       subdivisions: 2,
-    }, this._scene);
+      width: 10,
+    }, this.scene);
+
+    // Light
+    const light = new HemisphericLight('hemlight', new Vector3(0, 1, 0), this.scene);
 
     // Camera
-    this._camera = new FreeCamera('camera', new Vector3(0, 5, -10), this._scene);
-    this._camera.setTarget(Vector3.Zero());
-    this._camera.attachControl(this._canvas, false);
+    this.camera = new FreeCamera('camera', new Vector3(0, 2.62, 5), this.scene);
+    this.camera.setTarget(Vector3.Zero());
+    this.camera.attachControl(this.canvas, false);
+
+    // Sphere
+    const sphere = MeshBuilder.CreateSphere('sphere', {
+      diameter: 1,
+      segments: 16,
+    }, this.scene);
+    sphere.position.y = 1;
   }
 
-  private _renderLoop() : void {
-    this._scene.render();
+  public start(): void {
+    this.engine.runRenderLoop(this.renderLoop.bind(this));
   }
 
-  start() : void {
-    this._engine.runRenderLoop(this._renderLoop.bind(this));
+  private renderLoop(): void {
+    this.scene.render();
   }
+
 }

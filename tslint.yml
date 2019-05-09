@@ -1,0 +1,7 @@
+defaultSeverity: error
+extends: [ 'tslint:recommended' ]
+jsRules: {}
+rules:
+  quotemark:
+    options: ['single', 'avoid-escape']
+rulesDirectory: []

@@ -4,8 +4,10 @@
   "description": "This is a basic file structure for a babylonjs typescript project. It uses parseljs to do the bundling.",
   "main": "src/index.html",
   "scripts": {
+    "lint": "node_modules/.bin/tslint src/**/*.ts",
     "start": "parcel src/index.html",
     "build": "parcel build src/index.html",
+    "clean": "rm -rf dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "browserslist": {
@@ -19,10 +21,11 @@
   "author": "Jason Rowland",
   "license": "MIT",
   "dependencies": {
-    "babylonjs": "^4.0.3",
     "parcel-bundler": "^1.12.3"
   },
   "devDependencies": {
+    "babylonjs": "^4.0.3",
+    "tslint": "^5.16.0",
     "typescript": "^3.4.5"
   },
   "repository": {
